@@ -1,0 +1,17 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    env_file:
+      - development.env
+    container_name: "aspnetcoreapp"
+    ports:
+      - "0.0.0.0:5051:5001"
+      - "0.0.0.0:5050:5000"
+    volumes:
+      - .:/app
+    expose:
+      - "5000"
