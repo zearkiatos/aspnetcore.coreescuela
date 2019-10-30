@@ -15,7 +15,10 @@ RUN apt-get update && \
 COPY . /app
 
 CMD dotnet restore && \
+    dotnet publish -c Release -o out && \
     dotnet build && \
-    dotnet run --server.urls http://0.0.0.0:5000
+    dotnet run
+
+ENTRYPOINT ["dotnet", "watch", "run", "--no-restore", "--urls", "http://*:5000"]
 
 EXPOSE 5000

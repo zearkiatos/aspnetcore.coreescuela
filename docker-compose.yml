@@ -9,7 +9,6 @@ services:
       - development.env
     container_name: "aspnetcoreapp"
     ports:
-      - "0.0.0.0:5051:5001"
       - "0.0.0.0:5050:5000"
     volumes:
       - .:/app
