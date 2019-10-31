@@ -9,10 +9,14 @@ using aspnetcore.coreescuela.Models;
 
 namespace aspnetcore.coreescuela.Controllers
 {
-    public class EscuelaController : Controller
+    public class SchoolController : Controller
     {
         public IActionResult Index(){
-            return View();
+            var school = new School();
+            school.FoundationYear = 2005;
+            school.SchoolId = Guid.NewGuid().ToString();
+            school.Name = "Platzi School";
+            return View(school);
         }
     }
 }
