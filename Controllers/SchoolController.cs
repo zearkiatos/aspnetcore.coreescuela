@@ -16,6 +16,7 @@ namespace aspnetcore.coreescuela.Controllers
             school.FoundationYear = 2005;
             school.SchoolId = Guid.NewGuid().ToString();
             school.Name = "Platzi School";
+            ViewBag.CosaDinamica = "La Monja";
             return View(school);
         }
     }
