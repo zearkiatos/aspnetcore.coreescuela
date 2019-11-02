@@ -29,7 +29,7 @@ namespace aspnetcore.coreescuela.Controllers
 
             ViewBag.CosaDinamica = "La Monja";
             ViewBag.Date = DateTime.Now;
-            return View("MultiSubject", subjects);
+            return View(subjects);
         }
 
         public IActionResult Index()
