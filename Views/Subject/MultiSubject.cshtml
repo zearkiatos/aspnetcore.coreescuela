@@ -4,8 +4,6 @@
 }
 <h1>@ViewData["Title"]</h1>
 <strong>Desde la vista parcial</strong>
-@foreach(var subject in Model)
-{
-    <partial name="_SimpleObjectSchool" model="subject"/>
-}
+<partial name="_ListObjectSchool"/>
+
 <p><i>@ViewBag.Date</i></p>
