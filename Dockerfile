@@ -17,7 +17,7 @@ COPY . /app
 CMD dotnet restore && \
     dotnet publish -c Release -o out && \
     dotnet build && \
-    dotnet run
+    dotnet watch run
 
 ENTRYPOINT ["dotnet", "watch", "run", "--no-restore", "--urls", "http://*:5000"]
 
