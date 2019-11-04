@@ -16,14 +16,6 @@ namespace aspnetcore.coreescuela.Controllers
         private SchoolContext context;
         public IActionResult Index()
         {
-            // var school = new School();
-            // school.FoundationYear = 2005;
-            // school.UniqueId = Guid.NewGuid().ToString();
-            // school.Name = "Platzi School";
-            // school.City = "Bogota";
-            // school.Country = "Colombia";
-            // school.Address = "Avenida Siempre Viva";
-            // school.SchoolType = SchoolType.Secondary;
             ViewBag.CosaDinamica = "La Monja";
             var school = this.context.Schools.FirstOrDefault();
             return View(school);

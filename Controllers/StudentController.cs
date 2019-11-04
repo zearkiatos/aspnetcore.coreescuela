@@ -39,7 +39,7 @@ namespace aspnetcore.coreescuela.Controllers
                                    Name = $"{n1} {n2} {a1}"
                                };
 
-            return studentList.OrderBy((a) => a.UniqueId).ToList();
+            return studentList.OrderBy((a) => a.Id).ToList();
 
 
 
