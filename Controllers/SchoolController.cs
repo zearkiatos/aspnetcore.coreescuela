@@ -14,16 +14,16 @@ namespace aspnetcore.coreescuela.Controllers
     public class SchoolController : Controller
     {
         private SchoolContext context;
+
+        public SchoolController(SchoolContext context)
+        {
+            this.context = context;
+        }
         public IActionResult Index()
         {
             ViewBag.CosaDinamica = "La Monja";
             var school = this.context.Schools.FirstOrDefault();
             return View(school);
-        }
-
-        public SchoolController(SchoolContext context)
-        {
-            this.context = context;
         }
     }
 }
