@@ -6,7 +6,11 @@ namespace aspnetcore.coreescuela.Models
     public class Student : BaseSchoolObject
     {
 
-        public List<Test> Test { get; set; }
+        public List<Test> Tests { get; set; }
+
+        public string CourseId { get; set; }
+
+        public Course Course { get; set; }
 
     }
 }
