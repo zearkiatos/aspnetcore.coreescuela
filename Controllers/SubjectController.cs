@@ -23,7 +23,23 @@ namespace aspnetcore.coreescuela.Controllers
             ViewBag.Date = DateTime.Now;
             return View(this.context.Subjects);
         }
-
+        [Route("Subject/Index")]
+        [Route("Subject/Index/{subjectId}")]
+        public IActionResult Index(string subjectId)
+        {
+            if (!String.IsNullOrEmpty(subjectId))
+            {
+                var subject = from su in this.context.Subjects
+                              where su.Id == subjectId
+                              select su;
+                return View(subject.SingleOrDefault());
+            }
+            else
+            {
+                return View("MultiSubject",this.context.Subjects);
+            }
+        }
+        [Route("Subject")]
         public IActionResult Index()
         {
             return View(this.context.Subjects.FirstOrDefault());
