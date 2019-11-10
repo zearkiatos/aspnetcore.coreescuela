@@ -1,9 +1,10 @@
 @model Course
+@using aspnetcore.coreescuela.Models.Enum
 @{
     ViewData["Title"] = "Creación de Curso";
 }
 <h1>@ViewData["Title"]</h1>
-
+<div asp-validation-summary="All"></div>
 <form method="POST">
     <div>
         <label asp-for="Name"></label>
@@ -15,7 +16,12 @@
     </div>
     <div>
         <label asp-for="ClassDay" ></label>
-        <input asp-for = "ClassDay" />
+        @Html.DropDownList(
+            "Class Day",
+            Html.GetEnumSelectList<ClassDayType>(),
+            "Seleccione una jornada de la lista",
+            new {@class = "form-control"}
+        )
     </div>
     <button type="submit">
         Guardar

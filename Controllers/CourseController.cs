@@ -34,11 +34,21 @@ namespace aspnetcore.coreescuela.Controllers
         public IActionResult Create(Course course)
         {
             ViewBag.Date = DateTime.Now;
-            var school = this.context.Schools.FirstOrDefault();
-            course.SchoolId = school.Id;
-            this.context.Courses.Add(course);
-            this.context.SaveChanges();
-            return View();
+            if (ModelState.IsValid)
+            {
+                var school = this.context.Schools.FirstOrDefault();
+                course.SchoolId = school.Id;
+                this.context.Courses.Add(course);
+                this.context.SaveChanges();
+                ViewBag.extraMessage ="Curso Creado";
+                return View("Index",course);
+            }
+            else
+            {
+                return View(course);
+            }
+
+
         }
 
         [Route("Course/Index")]
