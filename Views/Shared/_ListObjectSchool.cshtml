@@ -1,8 +1,10 @@
+
 <table class="table table-dark table-hover">
     <thead>
         <tr>
             <th scope="col">Id</th>
             <th scope="col">Name</th>
+            <th scope="col">Edit</th>
         </tr>
     </thead>
     <tbody>
@@ -14,6 +16,10 @@
                 </td>
                 <td>
                     @item.Name
+                </td>
+                <td>
+
+                   <a href="@Url.Action("Edit")/@item.Id" class="text-reset text-decoration-none"><i class="fas fa-edit edit" ></i></a>
                 </td>
             </tr>
         }

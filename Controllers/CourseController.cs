@@ -40,8 +40,8 @@ namespace aspnetcore.coreescuela.Controllers
                 course.SchoolId = school.Id;
                 this.context.Courses.Add(course);
                 this.context.SaveChanges();
-                ViewBag.extraMessage ="Curso Creado";
-                return View("Index",course);
+                ViewBag.extraMessage = "Curso Creado";
+                return View("Index", course);
             }
             else
             {
@@ -49,6 +49,49 @@ namespace aspnetcore.coreescuela.Controllers
             }
 
 
+        }
+
+        [Route("Course/Edit/{courseId}")]
+        public IActionResult Edit(string courseId)
+        {
+
+            if (!String.IsNullOrEmpty(courseId))
+            {
+
+                var course = this.context.Courses.Where(x=>x.Id == courseId).SingleOrDefault();
+
+                return View("Edit",course);
+            }
+            else
+            {
+                return View("MultiCourse", this.context.Courses);
+            }
+        }
+
+        [HttpPut]
+        [Route("Course/Edit/{courseId}")]
+        public IActionResult Edit(string courseId, Course coursePut)
+        {
+
+            if (!String.IsNullOrEmpty(courseId) && ModelState.IsValid)
+            {
+
+                var course = this.context.Courses.Where(x=>x.Id == courseId).SingleOrDefault();
+
+                course.Address = coursePut.Address;
+                course.ClassDay = coursePut.ClassDay;
+                course.Name = coursePut.Name;
+                course.SchoolId = coursePut.SchoolId;
+
+                this.context.Courses.Update(course);
+                this.context.SaveChanges();
+                ViewBag.extraMessage = "Curso Modificado";
+                return View("Index", course);
+            }
+            else
+            {
+                return View("MultiCourse", this.context.Courses);
+            }
         }
 
         [Route("Course/Index")]

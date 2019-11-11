@@ -2,3 +2,6 @@
 bin
 obj
 properties
+node_modules
+*.css
+*.css.map
