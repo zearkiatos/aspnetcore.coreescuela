@@ -7,7 +7,7 @@ namespace aspnetcore.coreescuela.Models
 {
     public class Course : BaseSchoolObject
     {
-        [Required(ErrorMessage = "El nombre del Curso es requerido")]
+        [Required(ErrorMessage = "The field name is required")]
         [StringLength(5)]
         public override string Name { get; set; }
         public ClassDayType ClassDay { get; set; }
@@ -19,9 +19,9 @@ namespace aspnetcore.coreescuela.Models
         public string SchoolId { get; set; }
 
         public School School { get; set; }
-        [Display(Prompt ="Dirección correspondencia", Name="Address")]
-        [Required(ErrorMessage = "Se requiere incluir una dirección")]
-        [MinLength(10, ErrorMessage="La longitud mínima de la dirección es 10")]
+        [Display(Prompt ="Address", Name="Address")]
+        [Required(ErrorMessage = "The field address is required")]
+        [MinLength(10, ErrorMessage="The min length is 10 characters")]
         public string Address { get; set; }
 
     }
