@@ -1,0 +1,13 @@
+@model Course
+@{
+    ViewData["Title"] = "Eliminar Curso";
+}
+<h1>@ViewData["Title"]</h1>
+<h2>@ViewData["extraMessage"]</h2>
+<p>
+    Name: @Model.Name <br />
+    Id: @Model.Id
+</p>
+<p><i>@ViewBag.Date</i></p>
+
+<button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("ConfirmDelete")/@Model.Id'">Eliminar</button>

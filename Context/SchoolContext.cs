@@ -43,7 +43,7 @@ namespace aspnetcore.coreescuela.Context
             var courses = LoadingCourse(school);
 
             //By each course loading subjects
-            var subjects = LoadingSubject(courses);
+            var subjects = LoadingSubject(school);
             //By each course loading Students
 
             var students = LoadingStudents(courses);
@@ -64,24 +64,19 @@ namespace aspnetcore.coreescuela.Context
 
         }
 
-        private static List<Subject> LoadingSubject(List<Course> courses)
+        private static List<Subject> LoadingSubject(School school)
         {
             var subjectList = new List<Subject>();
-            foreach (var course in courses)
-            {
-                var tmpList = new List<Subject> {
+            var tmpList = new List<Subject> {
                             new Subject{
-                                CourseId = course.Id,
                                 Name="Matemáticas"} ,
-                            new Subject{ CourseId = course.Id, Name="Educación Física"},
-                            new Subject{ CourseId = course.Id, Name="Castellano"},
-                            new Subject{ CourseId = course.Id, Name="Ciencias Naturales"},
-                            new Subject{ CourseId = course.Id, Name="Programación"}
+                            new Subject{ SchoolId = school.Id, Name="Educación Física"},
+                            new Subject{ SchoolId = school.Id, Name="Castellano"},
+                            new Subject{ SchoolId = school.Id, Name="Ciencias Naturales"},
+                            new Subject{ SchoolId = school.Id, Name="Programación"}
 
                 };
-                subjectList.AddRange(tmpList);
-            }
-            return subjectList;
+            return tmpList;
         }
 
         private static List<Course> LoadingCourse(School school)
@@ -116,18 +111,17 @@ namespace aspnetcore.coreescuela.Context
             Random rnd = new Random();
             foreach (var course in courses)
             {
-                for(var i = 0;i<testByCourses;i++)
+                for (var i = 0; i < testByCourses; i++)
                 {
-                     var listTest = (from st in students.Where(s=>s.CourseId == course.Id)
-                                from su in subjects.Where(s=>s.CourseId == course.Id)
-                                where su.CourseId == st.CourseId
-                                select new Test
-                                {
-                                    Name = $"Examen {i+1} de {su.Name}",
-                                    StudentId = st.Id,
-                                    SubjectId = su.Id,
-                                    Result = MathF.Round((float)rnd.NextDouble() * 20, 2)
-                                }).ToList();
+                    var listTest = (from st in students.Where(s => s.CourseId == course.Id)
+                                    from su in subjects.Where(s => s.SchoolId== course.SchoolId)
+                                    select new Test
+                                    {
+                                        Name = $"Examen {i + 1} de {su.Name}",
+                                        StudentId = st.Id,
+                                        SubjectId = su.Id,
+                                        Result = MathF.Round((float)rnd.NextDouble() * 20, 2)
+                                    }).ToList();
 
                     test.AddRange(listTest);
                 }

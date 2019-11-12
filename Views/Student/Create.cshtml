@@ -1,0 +1,30 @@
+@model Student
+
+@{
+    var courses = ViewData["courses"] as IEnumerable<Course>;
+    
+
+    ViewData["Title"] = "Creación de Alumno";
+}
+<h1>@ViewData["Title"]</h1>
+<div asp-validation-summary="All"></div>
+<form method="POST">
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for = "Name" />
+    </div>
+    <div>
+        <label asp-for="Course" ></label>
+        @Html.DropDownList(
+            "CourseId",
+            new SelectList(courses,"Id","Name"),
+            "Seleccione una Curso de la lista",
+            new {@class = "form-control"}
+        )
+    </div>
+    <button type="submit">
+        Guardar
+    </button>
+</form>
+
+<p><i>@ViewBag.Date</i></p>

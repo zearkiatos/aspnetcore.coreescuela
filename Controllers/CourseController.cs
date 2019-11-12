@@ -58,9 +58,9 @@ namespace aspnetcore.coreescuela.Controllers
             if (!String.IsNullOrEmpty(courseId))
             {
 
-                var course = this.context.Courses.Where(x=>x.Id == courseId).SingleOrDefault();
+                var course = this.context.Courses.Where(x => x.Id == courseId).SingleOrDefault();
 
-                return View("Edit",course);
+                return View("Edit", course);
             }
             else
             {
@@ -68,7 +68,7 @@ namespace aspnetcore.coreescuela.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPost]
         [Route("Course/Edit/{courseId}")]
         public IActionResult Edit(string courseId, Course coursePut)
         {
@@ -76,7 +76,7 @@ namespace aspnetcore.coreescuela.Controllers
             if (!String.IsNullOrEmpty(courseId) && ModelState.IsValid)
             {
 
-                var course = this.context.Courses.Where(x=>x.Id == courseId).SingleOrDefault();
+                var course = this.context.Courses.Where(x => x.Id == courseId).SingleOrDefault();
 
                 course.Address = coursePut.Address;
                 course.ClassDay = coursePut.ClassDay;
@@ -114,6 +114,34 @@ namespace aspnetcore.coreescuela.Controllers
         public IActionResult Index()
         {
             return View(this.context.Courses.FirstOrDefault());
+        }
+
+        [Route("Course/Delete/{courseId}")]
+        public IActionResult Delete(string courseId)
+        {
+            if (!String.IsNullOrEmpty(courseId))
+            {
+                var course = from c in this.context.Courses
+                             where c.Id == courseId
+                             select c;
+                return View(course.SingleOrDefault());
+            }
+            else
+            {
+                return View("MultiCourse", this.context.Courses);
+            }
+        }
+        [HttpGet]
+        [Route("Course/ConfirmDelete/{courseId}")]
+        public IActionResult ConfirmDelete(string courseId)
+        {
+            if (!String.IsNullOrEmpty(courseId))
+            {
+                var course = this.context.Courses.FirstOrDefault(x=>x.Id == courseId);
+                this.context.Courses.Remove(course);
+                this.context.SaveChanges();
+            }
+            return View("MultiCourse",this.context.Courses);
         }
     }
 
