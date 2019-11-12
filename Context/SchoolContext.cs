@@ -83,11 +83,11 @@ namespace aspnetcore.coreescuela.Context
         {
             var schoolCourses = new List<Course>()
             {
-                new Course(){ SchoolId = school.Id, Name="101", ClassDay = ClassDayType.Morning},
-                new Course(){ SchoolId = school.Id, Name="201", ClassDay = ClassDayType.Morning},
-                new Course(){ SchoolId = school.Id, Name="301", ClassDay = ClassDayType.Morning},
-                new Course(){ SchoolId = school.Id, Name="401", ClassDay = ClassDayType.Afternoon},
-                new Course(){ SchoolId = school.Id, Name="501", ClassDay = ClassDayType.Afternoon}
+                new Course(){ SchoolId = school.Id, Address="Avenida Siempre Viva", Name="101", ClassDay = ClassDayType.Morning},
+                new Course(){ SchoolId = school.Id, Address="Avenida Siempre Viva",Name="201", ClassDay = ClassDayType.Morning},
+                new Course(){ SchoolId = school.Id, Address="Avenida Siempre Viva",Name="301", ClassDay = ClassDayType.Morning},
+                new Course(){ SchoolId = school.Id, Address="Avenida Siempre Viva",Name="401", ClassDay = ClassDayType.Afternoon},
+                new Course(){ SchoolId = school.Id, Address="Avenida Siempre Viva",Name="501", ClassDay = ClassDayType.Afternoon}
             };
             return schoolCourses;
         }
