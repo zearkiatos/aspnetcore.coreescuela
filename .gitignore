@@ -5,3 +5,5 @@ properties
 node_modules
 *.css
 *.css.map
+
+appsettings.Development.json

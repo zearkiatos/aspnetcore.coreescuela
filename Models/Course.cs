@@ -7,7 +7,8 @@ namespace aspnetcore.coreescuela.Models
 {
     public class Course : BaseSchoolObject
     {
-        [Required]
+        [Required(ErrorMessage = "The field name is required")]
+        [StringLength(5)]
         public override string Name { get; set; }
         public ClassDayType ClassDay { get; set; }
 
@@ -18,7 +19,9 @@ namespace aspnetcore.coreescuela.Models
         public string SchoolId { get; set; }
 
         public School School { get; set; }
-
+        [Display(Prompt ="Address", Name="Address")]
+        [Required(ErrorMessage = "The field address is required")]
+        [MinLength(10, ErrorMessage="The min length is 10 characters")]
         public string Address { get; set; }
 
     }
