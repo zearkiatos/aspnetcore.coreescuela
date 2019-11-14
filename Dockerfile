@@ -14,7 +14,8 @@ RUN apt-get update && \
 
 COPY . /app
 
-CMD dotnet restore && \
+CMD dotnet tool install -g dotnet-aspnet-codegenerato && \
+    dotnet restore && \
     dotnet publish -c Release -o out && \
     dotnet build && \
     dotnet watch run

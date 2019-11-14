@@ -1,144 +1,160 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using aspnetcore.coreescuela.Context;
 using aspnetcore.coreescuela.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace aspnetcore.coreescuela.Controllers
 {
     public class SubjectController : Controller
     {
-
-        private SchoolContext context;
+        private readonly SchoolContext _context;
 
         public SubjectController(SchoolContext context)
         {
-            this.context = context;
+            _context = context;
         }
-        public IActionResult MultiSubject()
+
+        // GET: Subject
+        public async Task<IActionResult> Index()
         {
-
-            ViewBag.CosaDinamica = "La Monja";
-            ViewBag.Date = DateTime.Now;
-            return View(this.context.Subjects);
+            var schoolContext = _context.Subjects.Include(s => s.School);
+            return View(await schoolContext.ToListAsync());
         }
 
-        [Route("Subject")]
-        public IActionResult Index()
+        // GET: Subject/Details/5
+        public async Task<IActionResult> Details(string id)
         {
-            return View(this.context.Subjects.FirstOrDefault());
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var subject = await _context.Subjects
+                .Include(s => s.School)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (subject == null)
+            {
+                return NotFound();
+            }
+
+            return View(subject);
         }
 
+        // GET: Subject/Create
         public IActionResult Create()
         {
-            ViewBag.Date = DateTime.Now;
+            ViewData["School"] = new SelectList(_context.Schools, "Id", "Name");
             return View();
         }
 
+        // POST: Subject/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public IActionResult Create(Subject subject)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Name,School,Id")] Subject subject)
         {
-            ViewBag.Date = DateTime.Now;
             if (ModelState.IsValid)
             {
-                this.context.Subjects.Add(subject);
-                this.context.SaveChanges();
-                ViewBag.extraMessage = "Asignatura Creada";
-                return View("Index", subject);
+                _context.Add(subject);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            else
-            {
-                return View(subject);
-            }
-
-
+            ViewData["School"] = new SelectList(_context.Schools, "Id", "Name", subject.SchoolId);
+            return View(subject);
         }
 
-        [Route("Subject/Edit/{subjectId}")]
-        public IActionResult Edit(string subjectId)
+        // GET: Subject/Edit/5
+        public async Task<IActionResult> Edit(string id)
         {
-
-            if (!String.IsNullOrEmpty(subjectId))
+            if (id == null)
             {
-
-                var subject = this.context.Subjects.Where(x => x.Id == subjectId).SingleOrDefault();
-
-                return View("Edit", subject);
+                return NotFound();
             }
-            else
+
+            var subject = await _context.Subjects.FindAsync(id);
+            if (subject == null)
             {
-                return View("MultiSubject", this.context.Subjects);
+                return NotFound();
             }
+            ViewData["School"] = new SelectList(_context.Schools, "Id", "Name", subject.SchoolId);
+            return View(subject);
         }
 
+        // POST: Subject/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Route("Subject/Edit/{subjectId}")]
-        public IActionResult Edit(string subjectId, Subject subjectPut)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string id, [Bind("Name,School,Id")] Subject subject)
         {
-
-            if (!String.IsNullOrEmpty(subjectId) && ModelState.IsValid)
+            if (id != subject.Id)
             {
-
-                var subject = this.context.Subjects.Where(x => x.Id == subjectId).SingleOrDefault();
-
-                subject.SchoolId = subjectPut.SchoolId;
-                subject.Name = subjectPut.Name;
-
-                this.context.Subjects.Update(subject);
-                this.context.SaveChanges();
-                ViewBag.extraMessage = "Asignatura Modificado";
-                return View("Index", subject);
+                return NotFound();
             }
-            else
+
+            if (ModelState.IsValid)
             {
-                return View("MultiSubject", this.context.Subjects);
+                try
+                {
+                    _context.Update(subject);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!SubjectExists(subject.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
             }
+            ViewData["School"] = new SelectList(_context.Schools, "Id", "Name", subject.SchoolId);
+            return View(subject);
         }
 
-        [Route("Subject/Index")]
-        [Route("Subject/Index/{subjectId}")]
-        public IActionResult Index(string subjectId)
+        // GET: Subject/Delete/5
+        public async Task<IActionResult> Delete(string id)
         {
-            if (!String.IsNullOrEmpty(subjectId))
+            if (id == null)
             {
-                var subject = from c in this.context.Subjects
-                             where c.Id == subjectId
-                             select c;
-                return View(subject.SingleOrDefault());
+                return NotFound();
             }
-            else
+
+            var subject = await _context.Subjects
+                .Include(s => s.School)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (subject == null)
             {
-                return View("MultiSubject", this.context.Subjects);
+                return NotFound();
             }
+
+            return View(subject);
         }
 
-        [Route("Subject/Delete/{subjectId}")]
-        public IActionResult Delete(string subjectId)
+        // POST: Subject/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            if (!String.IsNullOrEmpty(subjectId))
-            {
-                var subject = from c in this.context.Subjects
-                             where c.Id == subjectId
-                             select c;
-                return View(subject.SingleOrDefault());
-            }
-            else
-            {
-                return View("MultiSubject", this.context.Subjects);
-            }
+            var subject = await _context.Subjects.FindAsync(id);
+            _context.Subjects.Remove(subject);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
-        [HttpGet]
-        [Route("Subject/ConfirmDelete/{subjectId}")]
-        public IActionResult ConfirmDelete(string subjectId)
+
+        private bool SubjectExists(string id)
         {
-            if (!String.IsNullOrEmpty(subjectId))
-            {
-                var subject = this.context.Subjects.FirstOrDefault(x=>x.Id == subjectId);
-                this.context.Subjects.Remove(subject);
-                this.context.SaveChanges();
-            }
-            return View("MultiSubject",this.context.Subjects);
+            return _context.Subjects.Any(e => e.Id == id);
         }
     }
 }
