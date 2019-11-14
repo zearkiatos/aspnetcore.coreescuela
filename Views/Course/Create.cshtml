@@ -1,31 +1,59 @@
-@model Course
+@model aspnetcore.coreescuela.Models.Course
 @using aspnetcore.coreescuela.Models.Enum
-@{
-    ViewData["Title"] = "Creación de Curso";
-}
-<h1>@ViewData["Title"]</h1>
-<div asp-validation-summary="All"></div>
-<form method="POST">
-    <div>
-        <label asp-for="Name"></label>
-        <input asp-for = "Name" />
-    </div>
-    <div>
-        <label asp-for="Address" ></label>
-        <input asp-for = "Address" />
-    </div>
-    <div>
-        <label asp-for="ClassDay" ></label>
-        @Html.DropDownList(
-            "Class Day",
-            Html.GetEnumSelectList<ClassDayType>(),
-            "Seleccione una jornada de la lista",
-            new {@class = "form-control"}
-        )
-    </div>
-    <button type="submit">
-        Guardar
-    </button>
-</form>
 
-<p><i>@ViewBag.Date</i></p>
+@{
+    ViewData["Title"] = "Create";
+    Layout = "../Shared/_Layout";
+}
+
+<h1>Create</h1>
+
+<h4>Course</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClassDay" class="control-label"></label>
+                        @Html.DropDownList(
+                        "Class Day",
+                        Html.GetEnumSelectList<ClassDayType>(),
+                        "Seleccione una jornada de la lista",
+                        new {@class = "form-control"}
+                    )
+                <span asp-validation-for="ClassDay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SchoolId" class="control-label"></label>
+                <select asp-for="SchoolId" class ="form-control" asp-items="ViewBag.SchoolId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
