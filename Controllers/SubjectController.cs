@@ -48,7 +48,7 @@ namespace aspnetcore.coreescuela.Controllers
         // GET: Subject/Create
         public IActionResult Create()
         {
-            ViewData["SchoolId"] = new SelectList(_context.Schools, "Id", "Id");
+            ViewData["School"] = new SelectList(_context.Schools, "Id", "Name");
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace aspnetcore.coreescuela.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,SchoolId,Id")] Subject subject)
+        public async Task<IActionResult> Create([Bind("Name,School,Id")] Subject subject)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace aspnetcore.coreescuela.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SchoolId"] = new SelectList(_context.Schools, "Id", "Id", subject.SchoolId);
+            ViewData["School"] = new SelectList(_context.Schools, "Id", "Name", subject.SchoolId);
             return View(subject);
         }
 
@@ -82,7 +82,7 @@ namespace aspnetcore.coreescuela.Controllers
             {
                 return NotFound();
             }
-            ViewData["SchoolId"] = new SelectList(_context.Schools, "Id", "Id", subject.SchoolId);
+            ViewData["School"] = new SelectList(_context.Schools, "Id", "Name", subject.SchoolId);
             return View(subject);
         }
 
@@ -91,7 +91,7 @@ namespace aspnetcore.coreescuela.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,SchoolId,Id")] Subject subject)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,School,Id")] Subject subject)
         {
             if (id != subject.Id)
             {
@@ -118,7 +118,7 @@ namespace aspnetcore.coreescuela.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SchoolId"] = new SelectList(_context.Schools, "Id", "Id", subject.SchoolId);
+            ViewData["School"] = new SelectList(_context.Schools, "Id", "Name", subject.SchoolId);
             return View(subject);
         }
 

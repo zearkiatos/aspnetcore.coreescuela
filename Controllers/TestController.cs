@@ -49,8 +49,8 @@ namespace aspnetcore.coreescuela.Controllers
         // GET: Test/Create
         public IActionResult Create()
         {
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Id");
-            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Id");
+            ViewData["Student"] = new SelectList(_context.Students, "Id", "Name");
+            ViewData["Subject"] = new SelectList(_context.Subjects, "Id", "Name");
             return View();
         }
 
@@ -67,8 +67,8 @@ namespace aspnetcore.coreescuela.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Id", test.StudentId);
-            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Id", test.SubjectId);
+            ViewData["Student"] = new SelectList(_context.Students, "Id", "Name", test.StudentId);
+            ViewData["Student"] = new SelectList(_context.Subjects, "Id", "Name", test.SubjectId);
             return View(test);
         }
 
@@ -85,8 +85,8 @@ namespace aspnetcore.coreescuela.Controllers
             {
                 return NotFound();
             }
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Id", test.StudentId);
-            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Id", test.SubjectId);
+            ViewData["Student"] = new SelectList(_context.Students, "Id", "Name", test.StudentId);
+            ViewData["Subject"] = new SelectList(_context.Subjects, "Id", "Name", test.SubjectId);
             return View(test);
         }
 

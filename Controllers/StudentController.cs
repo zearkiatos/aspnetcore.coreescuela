@@ -48,7 +48,7 @@ namespace aspnetcore.coreescuela.Controllers
         // GET: Student/Create
         public IActionResult Create()
         {
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id");
+            ViewData["Course"] = new SelectList(_context.Courses, "Id", "Name");
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace aspnetcore.coreescuela.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CourseId,Id,Name")] Student student)
+        public async Task<IActionResult> Create([Bind("Course,Id,Name")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace aspnetcore.coreescuela.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id", student.CourseId);
+            ViewData["Course"] = new SelectList(_context.Courses, "Id", "Name", student.CourseId);
             return View(student);
         }
 
@@ -82,7 +82,7 @@ namespace aspnetcore.coreescuela.Controllers
             {
                 return NotFound();
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id", student.CourseId);
+            ViewData["Course"] = new SelectList(_context.Courses, "Id", "Name", student.CourseId);
             return View(student);
         }
 
