@@ -3,6 +3,8 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.0 AS build
 WORKDIR /app
 
 RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y nodejs && \
     yes | apt-get install wget && \
     yes | wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
     dpkg -i packages-microsoft-prod.deb && \

@@ -26,12 +26,15 @@ namespace aspnetcore.coreescuela
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            // services.AddDbContext<SchoolContext>(
-            //     options => options.UseInMemoryDatabase(databaseName:"testDB")
-            // );
-            string connectionString = ConfigurationExtensions.GetConnectionString(this.Configuration, "DefaultConnectionString");
             services.AddDbContext<SchoolContext>(
-                options => options.UseSqlServer(connectionString)
+                options => options.UseInMemoryDatabase(databaseName:"testDB")
+            );
+            // string connectionString = ConfigurationExtensions.GetConnectionString(this.Configuration, "DefaultConnectionString");
+            // services.AddDbContext<SchoolContext>(
+            //     options => options.UseSqlServer(connectionString)
+            // );
+            services.AddDbContext<SchoolContext>(
+                options => options.UseInMemoryDatabase(databaseName:"testDB")	               
             );
         }
 
